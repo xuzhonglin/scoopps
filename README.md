@@ -1,42 +1,29 @@
-# Scoop Bucket Template
+# ScoopPS
 
-<!-- Uncomment the following line after replacing placeholders -->
-<!-- [![Tests](https://github.com/<username>/<bucketname>/actions/workflows/ci.yml/badge.svg)](https://github.com/<username>/<bucketname>/actions/workflows/ci.yml) [![Excavator](https://github.com/<username>/<bucketname>/actions/workflows/excavator.yml/badge.svg)](https://github.com/<username>/<bucketname>/actions/workflows/excavator.yml) -->
+个人 [Scoop](https://scoop.sh) 应用仓库，收录一些常用 Windows 软件的 Scoop 清单。
 
-Template bucket for [Scoop](https://scoop.sh), the Windows command-line installer.
+## 已收录应用
 
-## How do I use this template?
+| 应用 | 说明 |
+|------|------|
+| [微信](bucket/weixin.json) | 微信 QT 多桌面端统一版，支持数据持久化 |
 
-1. Generate your own copy of this repository with the "Use this template"
-   button.
-2. Allow all GitHub Actions:
-   - Navigate to `Settings` - `Actions` - `General` - `Actions permissions`.
-   - Select `Allow all actions and reusable workflows`.
-   - Then `Save`.
-3. Allow writing to the repository from within GitHub Actions:
-   - Navigate to `Settings` - `Actions` - `General` - `Workflow permissions`.
-   - Select `Read and write permissions`.
-   - Then `Save`.
-4. Document the bucket in `README.md`.
-5. Replace the placeholder repository string in `bin/auto-pr.ps1`.
-6. Create new manifests by copying `bucket/app-name.json.template` to
-   `bucket/<app-name>.json`.
-7. Commit and push changes.
-8. If you'd like your bucket to be indexed on `https://scoop.sh`, add the
-   topic `scoop-bucket` to your repository.
-
-## How do I install these manifests?
-
-After manifests have been committed and pushed, run the following:
+## 安装使用
 
 ```pwsh
-scoop bucket add <bucketname> https://github.com/<username>/<bucketname>
-scoop install <bucketname>/<manifestname>
+# 添加本仓库
+scoop bucket add scoopps https://github.com/xuzhonglin/scoopps
+
+# 安装应用
+scoop install scoopps/weixin
 ```
 
-## How do I contribute new manifests?
+## 参考来源与致谢
 
-To make a new manifest contribution, please read the [Contributing
-Guide](https://github.com/ScoopInstaller/.github/blob/main/.github/CONTRIBUTING.md)
-and [App Manifests](https://github.com/ScoopInstaller/Scoop/wiki/App-Manifests)
-wiki page.
+本仓库的部分清单灵感与实现参考了以下项目：
+
+- [**软件狗狗 (sdoog)**](https://github.com/xrgzs/sdoog) — 一个对现有 Scoop 仓库的补充项目，采用激进的持久化策略，充分利用 Scoop 的软链接特性持久化程序配置，重装系统后无需重新配置。感谢 [@xrgzs](https://github.com/xrgzs) 的工作！
+
+## 贡献
+
+欢迎提交 PR 添加新的应用清单。请参考 [Scoop App Manifests](https://github.com/ScoopInstaller/Scoop/wiki/App-Manifests) 编写清单文件。
