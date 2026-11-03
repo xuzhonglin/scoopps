@@ -1,0 +1,16 @@
+{
+  "_doc": "自动更新配置。新增包只需在 packages 里加一条，无需新建 workflow。字段说明见 scripts/update-packages.py。",
+  "packages": [
+    {
+      "name": "weixin",
+      "file": "bucket/weixin.json",
+      "upstream": "https://raw.githubusercontent.com/xrgzs/sdoog/master/bucket/weixin.json",
+      "sync": {
+        "version": "version",
+        "hash": "hash",
+        "url": "url",
+        "autoupdate.url": "autoupdate.url"
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+name: Update packages
+
+# 所有需要自动更新的 Scoop 包都走这一个 workflow。
+# 新增包时只改 .github/bucket-updater.json，不要新建 workflow。
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '只检查不提交'
+        type: boolean
+        default: false
+  schedule:
+    # 每天两次：北京时间 08:00 和 20:00（GitHub cron 用 UTC，即 00:00 / 12:00 UTC）
+    - cron: '0 0,12 * * *'
+  push:
+    branches:
+      - master
+    paths:
+      - 'scripts/update-packages.py'
+      - '.github/bucket-updater.json'
+      - '.github/workflows/update-packages.yml'
+
+concurrency:
+  group: update-packages
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    name: Sync manifests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Bucket
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Sync manifests from upstream
+        run: python3 scripts/update-packages.py --message-file "$RUNNER_TEMP/commit-msg.txt"
+
+      - name: Commit and push
+        if: ${{ !inputs.dry_run }}
+        run: |
+          if git diff --quiet -- bucket; then
+            echo "没有变更，跳过提交。"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bucket
+          git commit -F "$RUNNER_TEMP/commit-msg.txt"
+          git push origin HEAD:master
